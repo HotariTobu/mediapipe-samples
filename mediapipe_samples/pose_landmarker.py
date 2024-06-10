@@ -72,11 +72,12 @@ options = PoseLandmarkerOptions(
 with PoseLandmarker.create_from_options(options) as landmarker:
     # Capture video from webcam
     cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        raise
 
-    while cap.isOpened():
-        success, cv2_image = cap.read()
-
-        if not success:
+    while True:
+        ret, cv2_image = cap.read()
+        if not ret:
             print("Ignoring empty camera frame.")
             continue
 
